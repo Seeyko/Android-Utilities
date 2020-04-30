@@ -1,4 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="themeName" format="string"></attr>
+
+
+    <declare-styleable name="GlobalAttrs">
+        <attr name="rippleColor" format="color" />
+
+        <attr name="selectedBackground" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="SegmentedButton">
+        <attr name="android:background" />
+        <attr name="selectedBackground" />
+
+        <attr name="rounded" format="boolean" />
+
+        <attr name="rippleColor" />
+
+        <attr name="drawable" format="reference" />
+        <attr name="drawablePadding" format="dimension" />
+        <attr name="drawableTint" format="color" />
+        <attr name="selectedDrawableTint" format="color" />
+        <attr name="drawableWidth" format="dimension" />
+        <attr name="drawableHeight" format="dimension" />
+        <attr name="drawableGravity" format="integer">
+            <flag name="top" value="0x30" />
+            <flag name="bottom" value="0x50" />
+            <flag name="left" value="0x03" />
+            <flag name="right" value="0x05" />
+        </attr>
+
+        <attr name="text" format="string" />
+        <attr name="textColor" format="color" />
+        <attr name="selectedTextColor" format="color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="android:fontFamily" format="string" />
+        <attr name="textStyle" format="integer">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SegmentedButtonGroup">
+        <attr name="android:background" />
+        <attr name="selectedBackground" />
+
+        <attr name="borderWidth" format="dimension" />
+        <attr name="borderColor" format="color" />
+        <attr name="borderDashWidth" format="dimension" />
+        <attr name="borderDashGap" format="dimension" />
+
+        <attr name="selectedBorderWidth" format="dimension" />
+        <attr name="selectedBorderColor" format="color" />
+        <attr name="selectedBorderDashWidth" format="dimension" />
+        <attr name="selectedBorderDashGap" format="dimension" />
+
+        <attr name="radius" format="dimension" />
+        <attr name="selectedButtonRadius" format="dimension" />
+        <attr name="position" format="integer" />
+        <attr name="draggable" format="boolean" />
+        <attr name="android:clickable" />
+
+        <attr name="ripple" format="boolean" />
+        <attr name="rippleColor" />
+
+        <attr name="divider" />
+        <attr name="dividerWidth" format="dimension" />
+        <attr name="dividerRadius" format="dimension" />
+        <attr name="dividerPadding" format="dimension" />
+
+        <attr name="selectionAnimationDuration" format="integer" />
+        <attr name="selectionAnimationInterpolator" format="enum">
+            <enum name="none" value="-1" />
+            <enum name="fastOutSlowIn" value="0" />
+            <enum name="bounce" value="1" />
+            <enum name="linear" value="2" />
+            <enum name="decelerate" value="3" />
+            <enum name="cycle" value="4" />
+            <enum name="anticipate" value="5" />
+            <enum name="accelerateDecelerate" value="6" />
+            <enum name="accelerate" value="7" />
+            <enum name="anticipateOvershoot" value="8" />
+            <enum name="fastOutLinearIn" value="9" />
+            <enum name="linearOutSlowIn" value="10" />
+            <enum name="overshoot" value="11" />
+        </attr>
+    </declare-styleable>
+
+    <!-- Background Drawable of View's -->
+    <attr name="backgroundCompat" format="reference" />
+    <!-- Extra attribute for RippleDrawable, to add support of scroll containers -->
+    <attr name="isInScrollContainer" format="boolean" />
+
+    <!-- Drawable used to show animated touch feedback. -->
+    <declare-styleable name="RippleDrawable">
+        <!-- The color to use for ripple effects. This attribute is required. -->
+        <attr name="android:color" />
+    </declare-styleable>
+
+    <!-- Drawable used to render several drawables stacked on top of each other.
+         Each child drawable can be controlled individually. -->
+    <declare-styleable name="LayerDrawable">
+        <!-- Indicates whether the drawable should be initially visible. -->
+        <attr name="android:visible" />
+        <!-- Indicates the opacity of the layer. This can be useful to allow the
+              system to enable drawing optimizations. The default value is
+              translucent. -->
+        <attr name="android:opacity" />
+        <!-- Indicates if the drawable needs to be mirrored when its layout direction is
+             RTL (right-to-left). -->
+        <attr name="android:autoMirrored" />
+        <!-- Indicates how layer padding should affect the bounds of subsequent layers.
+             The default padding mode value is nest. -->
+        <attr name="android:paddingMode" />
+    </declare-styleable>
+
+    <!-- Describes an item (or child) of a LayerDrawable. -->
+    <declare-styleable name="LayerDrawableItem">
+        <!-- Left coordinate of the layer. -->
+        <attr name="android:left" />
+        <!-- Top coordinate of the layer. -->
+        <attr name="android:top" />
+        <!-- Right coordinate of the layer. -->
+        <attr name="android:right" />
+        <!-- Bottom coordinate of the layer. -->
+        <attr name="android:bottom" />
+        <!-- Drawable used to render the layer. -->
+        <attr name="android:drawable" />
+        <!-- Identifier of the layer. This can be used to retrieve the layer
+             from a drawable container. -->
+        <attr name="android:id" />
+    </declare-styleable>
 </resources>

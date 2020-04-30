@@ -900,7 +900,6 @@ public class InfoWindowManager
             } else {
                 currentId = R.id.infoWindowContainer1;
             }
-
             return currentId;
         }
 

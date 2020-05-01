@@ -152,6 +152,10 @@ public class FileUtils {
         private final SeeykoListeners.JSONArrayListener listener;
         private final Context context;
 
+        public JsonArrayTask(Context context){
+            this.context = context;
+            listener = null;
+        }
         public JsonArrayTask(Context context, SeeykoListeners.JSONArrayListener listener) {
             this.context = context;
             this.listener = listener;
@@ -160,7 +164,9 @@ public class FileUtils {
         protected void onPreExecute() {
             super.onPreExecute();
             Log.e("download", "start");
-            listener.load();
+            if(listener != null){
+                listener.load();
+            }
         }
 
         protected JSONArray doInBackground(String... params) {
@@ -205,7 +211,9 @@ public class FileUtils {
         @Override
         protected void onPostExecute(JSONArray result) {
             super.onPostExecute(result);
-            listener.callback(result);
+            if(listener != null){
+                listener.callback(result);
+            }
         }
     }
 }

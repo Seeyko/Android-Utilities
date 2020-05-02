@@ -31,23 +31,23 @@ public class FileUtils {
     }
     public static boolean writeFileInternal(Context context, String fileName, String jsonString) {
         try {
-            Log.e("=>try to write at ", fileName);
+            Log.d("FileUtils", "try to write at: " +  fileName);
             File file = new File(context.getFilesDir(), fileName);
-            Log.e("=>file locate", file.getAbsolutePath());
+            Log.d("FileUtils", "file located");
 
             FileOutputStream stream = new FileOutputStream(file);
             try {
                 stream.write(jsonString.getBytes());
             } catch (Exception e) {e.printStackTrace();
             } finally {
+                Log.d("FileUtils", "file writed success");
                 stream.close();
             }
             return true;
         } catch (FileNotFoundException fileNotFound) {
-            fileNotFound.printStackTrace();fileNotFound.printStackTrace();
+            fileNotFound.printStackTrace();
             return false;
         } catch (IOException ioException) {
-            ioException.printStackTrace();
             ioException.printStackTrace();
             return false;
         } catch (Exception e) {

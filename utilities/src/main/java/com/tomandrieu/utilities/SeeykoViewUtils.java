@@ -5,6 +5,10 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.tomandrieu.utilities.ui.TextBottomSheetFragment;
+
 public class SeeykoViewUtils {
 
     /**
@@ -33,4 +37,10 @@ public class SeeykoViewUtils {
                     }
                 });
     }
+
+    public static void showBottomSheetWithText(AppCompatActivity activity, String text) {
+        TextBottomSheetFragment textBottomSheetFragment = new TextBottomSheetFragment("\" " + text + " \"");
+        textBottomSheetFragment.show(activity.getSupportFragmentManager(), textBottomSheetFragment.getTag());
+    }
+
 }

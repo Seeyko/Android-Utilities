@@ -2,7 +2,6 @@ package com.tomandrieu.utilities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -60,17 +59,17 @@ public class SeeykoViewUtils {
         textBottomSheetFragment.show(activity.getSupportFragmentManager(), textBottomSheetFragment.getTag());
     }
 
-    public static ImageView createIcon(Activity activity, int resId, ImageView.ScaleType scaleType, TableLayout.LayoutParams iconParams) {
-        ImageView icon = new ImageView(activity);
+    public static ImageView createIcon(Context context, int resId, ImageView.ScaleType scaleType, TableLayout.LayoutParams iconParams) {
+        ImageView icon = new ImageView(context);
         icon.setLayoutParams(iconParams);
         icon.setScaleType(scaleType);
 
         TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = activity.getTheme();
+        Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(R.attr.colorOnBackground, typedValue, true);
 
-        icon.setColorFilter(ContextCompat.getColor(activity, typedValue.resourceId), android.graphics.PorterDuff.Mode.SRC_IN);
-        icon.setImageDrawable(activity.getResources().getDrawable(resId));
+        icon.setColorFilter(ContextCompat.getColor(context, typedValue.resourceId), android.graphics.PorterDuff.Mode.SRC_IN);
+        icon.setImageDrawable(context.getResources().getDrawable(resId));
         return icon;
     }
 

@@ -2,4 +2,5 @@
 <resources>
     <string name="hint_provide_information">Information à fournir</string>
     <string name="copy_text">Texte copié</string>
+    <string name="wait_load">Attendre le chargement...</string>
 </resources>

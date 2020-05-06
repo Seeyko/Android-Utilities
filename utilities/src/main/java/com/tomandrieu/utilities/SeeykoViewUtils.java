@@ -3,6 +3,7 @@ package com.tomandrieu.utilities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.text.InputType;
@@ -73,24 +74,24 @@ public class SeeykoViewUtils {
         return icon;
     }
 
-    public static TextView createAutoResizeTextView(Activity activity, String text, boolean singleLine, int replacementStringId, boolean selectable) {
+    public static TextView createAutoResizeTextView(Context context, String text, boolean singleLine, int replacementStringId, boolean selectable) {
 
-        TextView textView = new AutoResizeTextView(activity);
+        TextView textView = new AutoResizeTextView(context);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.setMargins(SeeykoUtils.pixelsInDp(20, activity), 0, 0, 0);
+        params.setMargins(SeeykoUtils.pixelsInDp(20, context), 0, 0, 0);
 
 
         if (text != null && !text.trim().isEmpty()) {
             textView.setText((text));
         } else if (replacementStringId != 0) {
-            textView.setText(firstCharUppercase(activity.getResources().getString(replacementStringId)));
+            textView.setText(firstCharUppercase(context.getResources().getString(replacementStringId)));
             textView.setTypeface(null, Typeface.ITALIC);
         } else {
-            textView.setText(firstCharUppercase(activity.getResources().getString(R.string.hint_provide_information)));
+            textView.setText(firstCharUppercase(context.getResources().getString(R.string.hint_provide_information)));
             textView.setTypeface(null, Typeface.ITALIC);
         }
-        ((AutoResizeTextView) textView).setMinTextSize(activity.getResources().getDimension(R.dimen.text_medium));
+        ((AutoResizeTextView) textView).setMinTextSize(context.getResources().getDimension(R.dimen.text_medium));
 
         if (singleLine) {
             textView.setSingleLine(true);
@@ -105,8 +106,8 @@ public class SeeykoViewUtils {
         return textView;
     }
 
-    public static LinearLayout createLinearLayout(Activity activity, int backgroundRessource, String textToCopy, TableLayout.LayoutParams layoutParams, String toastText) {
-        LinearLayout layout = new LinearLayout(activity);
+    public static LinearLayout createLinearLayout(Context context, int backgroundRessource, String textToCopy, TableLayout.LayoutParams layoutParams, String toastText) {
+        LinearLayout layout = new LinearLayout(context);
         layout.setLayoutParams(layoutParams);
 
         if (toastText != null && textToCopy != null && !textToCopy.isEmpty()) {
@@ -114,8 +115,8 @@ public class SeeykoViewUtils {
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SeeykoUtils.setClipboard(activity, textToCopy);
-                    Toast.makeText(activity, toastText, Toast.LENGTH_SHORT).show();
+                    SeeykoUtils.setClipboard(context, textToCopy);
+                    Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
                     return;
                 }
             });

@@ -2,12 +2,28 @@ package com.tomandrieu.utilities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.content.Context;
+import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.Typeface;
+import android.text.InputType;
+import android.text.util.Linkify;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.lb.auto_fit_textview.AutoResizeTextView;
 import com.tomandrieu.utilities.ui.TextBottomSheetFragment;
+
+import static com.tomandrieu.utilities.StringUtils.firstCharUppercase;
 
 public class SeeykoViewUtils {
 
@@ -41,6 +57,71 @@ public class SeeykoViewUtils {
     public static void showBottomSheetWithText(AppCompatActivity activity, String text) {
         TextBottomSheetFragment textBottomSheetFragment = new TextBottomSheetFragment("\" " + text + " \"");
         textBottomSheetFragment.show(activity.getSupportFragmentManager(), textBottomSheetFragment.getTag());
+    }
+
+    public static ImageView createIcon(Activity activity, int resId, ImageView.ScaleType scaleType, TableLayout.LayoutParams iconParams) {
+        ImageView icon = new ImageView(activity);
+        icon.setLayoutParams(iconParams);
+        icon.setScaleType(scaleType);
+
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = activity.getTheme();
+        theme.resolveAttribute(R.attr.colorOnBackground, typedValue, true);
+
+        icon.setColorFilter(ContextCompat.getColor(activity, typedValue.resourceId), android.graphics.PorterDuff.Mode.SRC_IN);
+        icon.setImageDrawable(activity.getResources().getDrawable(resId));
+        return icon;
+    }
+
+    public static TextView createAutoResizeTextView(Activity activity, String text, boolean singleLine, int replacementStringId, boolean selectable) {
+
+        TextView textView = new AutoResizeTextView(activity);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.setMargins(SeeykoUtils.pixelsInDp(20, activity), 0, 0, 0);
+
+
+        if (text != null && !text.trim().isEmpty()) {
+            textView.setText((text));
+        } else if (replacementStringId != 0) {
+            textView.setText(firstCharUppercase(activity.getResources().getString(replacementStringId)));
+            textView.setTypeface(null, Typeface.ITALIC);
+        } else {
+            textView.setText(firstCharUppercase(activity.getResources().getString(R.string.hint_provide_information)));
+            textView.setTypeface(null, Typeface.ITALIC);
+        }
+        ((AutoResizeTextView) textView).setMinTextSize(activity.getResources().getDimension(R.dimen.text_medium));
+
+        if (singleLine) {
+            textView.setSingleLine(true);
+        } else {
+            textView.setMaxLines(2);
+        }
+        textView.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        Linkify.addLinks(textView, Linkify.WEB_URLS);
+        textView.setLayoutParams(params);
+        textView.setGravity(Gravity.CENTER_VERTICAL);
+        textView.setTextIsSelectable(selectable);
+        return textView;
+    }
+
+    public static LinearLayout createLinearLayout(Activity activity, int backgroundRessource, String textToCopy, TableLayout.LayoutParams layoutParams, String toastText) {
+        LinearLayout layout = new LinearLayout(activity);
+        layout.setLayoutParams(layoutParams);
+
+        if (toastText != null && textToCopy != null && !textToCopy.isEmpty()) {
+            layout.setBackgroundResource(backgroundRessource);
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SeeykoUtils.setClipboard(activity, textToCopy);
+                    Toast.makeText(activity, toastText, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            });
+        }
+
+        return layout;
     }
 
 }

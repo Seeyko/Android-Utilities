@@ -33,4 +33,10 @@ public class SeeykoUtils {
             appCompatActivity.finishAffinity();
         }
     }
+
+    public static void setClipboard(Context context, String text) {
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        android.content.ClipData clip = android.content.ClipData.newPlainText(context.getResources().getString(R.string.copy_text), text);
+        clipboard.setPrimaryClip(clip);
+    }
 }

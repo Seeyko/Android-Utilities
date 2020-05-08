@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.text.Html;
 import android.text.InputType;
 import android.text.util.Linkify;
 import android.util.TypedValue;
@@ -82,7 +83,7 @@ public class SeeykoViewUtils {
 
 
         if (text != null && !text.trim().isEmpty()) {
-            textView.setText((text));
+            textView.setText((Html.fromHtml(text)));
         } else if (replacementStringId != 0) {
             textView.setText(firstCharUppercase(context.getResources().getString(replacementStringId)));
             textView.setTypeface(null, Typeface.ITALIC);

@@ -4,7 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.Html;
 import android.text.InputType;
 import android.text.util.Linkify;
@@ -123,6 +126,22 @@ public class SeeykoViewUtils {
         }
 
         return layout;
+    }
+
+    public static void setTextViewDrawableColor(TextView textView, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            for (Drawable drawable : textView.getCompoundDrawablesRelative()) {
+                if (drawable != null) {
+                    drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                }
+            }
+        } else {
+            for (Drawable drawable : textView.getCompoundDrawables()) {
+                if (drawable != null) {
+                    drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                }
+            }
+        }
     }
 
 }

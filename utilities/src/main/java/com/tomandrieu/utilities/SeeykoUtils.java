@@ -39,4 +39,9 @@ public class SeeykoUtils {
         android.content.ClipData clip = android.content.ClipData.newPlainText(context.getResources().getString(R.string.copy_text), text);
         clipboard.setPrimaryClip(clip);
     }
+
+    public static int getIdentifier(String id, String type, Context context) {
+        return context.getResources().getIdentifier(id, type, context.getPackageName());
+    }
+
 }

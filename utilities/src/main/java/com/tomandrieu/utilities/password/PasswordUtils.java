@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PasswordUtils {
-    private static final String REGEX_DIGIT = "^(?=.*[0-9])$";
-    private static final String REGEX_MAJ = "^(?=.*[A-Z])$";
-    private static final String REGEX_MIN = "^(?=.*[a-z])$";
-    private static final String REGEX_MIN_NB_CHAR = "^(?=.{0,8}$).*";
+    private static final String REGEX_DIGIT = "^(?=.*[0-9]).+$";
+    private static final String REGEX_MAJ = "^(?=.*[A-Z]).+$";
+    private static final String REGEX_MIN = "^(?=.*[a-z]).+$";
+    private static final String REGEX_MIN_NB_CHAR = "^(?=.{8,}$).*";
     private static final String REGEX_NO_WHITESPACE = ".*\\s.*";
 
     private static final String PASSWORD_COMPLEXITY_REGEX_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
@@ -32,7 +32,7 @@ public class PasswordUtils {
         if (!password.matches(REGEX_DIGIT)) passwordRequirmentList.add(PasswordRequirment.DIGIT);
         if (!password.matches(REGEX_MAJ)) passwordRequirmentList.add(PasswordRequirment.MAJ);
         if (!password.matches(REGEX_MIN)) passwordRequirmentList.add(PasswordRequirment.MIN);
-        if (password.matches(REGEX_MIN_NB_CHAR)) passwordRequirmentList.add(PasswordRequirment.MIN_NB_CHAR);
+        if (!password.matches(REGEX_MIN_NB_CHAR)) passwordRequirmentList.add(PasswordRequirment.MIN_NB_CHAR);
 
         PasswordCheck passwordCheck = null;
         switch (passwordRequirmentList.size()) {

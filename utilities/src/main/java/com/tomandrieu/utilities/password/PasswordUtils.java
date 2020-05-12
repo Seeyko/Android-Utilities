@@ -33,19 +33,18 @@ public class PasswordUtils {
         if (!password.matches(REGEX_MAJ)) passwordRequirmentList.add(PasswordRequirment.MAJ);
         if (!password.matches(REGEX_MIN)) passwordRequirmentList.add(PasswordRequirment.MIN);
         if (!password.matches(REGEX_MIN_NB_CHAR)) passwordRequirmentList.add(PasswordRequirment.MIN_NB_CHAR);
-
+        
         PasswordCheck passwordCheck = null;
         switch (passwordRequirmentList.size()) {
             case 0:
-                passwordCheck = new PasswordCheck(PasswordComplexityLevel.UNBREAKABLE, passwordRequirmentList);
+                passwordCheck = new PasswordCheck(PasswordComplexityLevel.GOOD, passwordRequirmentList);
                 break;
             case 1:
-                passwordCheck = new PasswordCheck(PasswordComplexityLevel.STRONG, passwordRequirmentList);
-                break;
             case 2:
+            case 3:
                 passwordCheck = new PasswordCheck(PasswordComplexityLevel.INTERMEDIATE, passwordRequirmentList);
                 break;
-            case 3:
+            case 4:
                 passwordCheck = new PasswordCheck(PasswordComplexityLevel.WEAK, passwordRequirmentList);
                 break;
         }

@@ -9,7 +9,7 @@ public class PasswordUtils {
     private static final String REGEX_DIGIT = "^(?=.*[0-9])$";
     private static final String REGEX_MAJ = "^(?=.*[A-Z])$";
     private static final String REGEX_MIN = "^(?=.*[a-z])$";
-    private static final String REGEX_MIN_NB_CHAR = "^.{8,}$";
+    private static final String REGEX_MIN_NB_CHAR = "^(?=.{8,}$).*";
     private static final String REGEX_NO_WHITESPACE = ".*\\s.*";
 
     private static final String PASSWORD_COMPLEXITY_REGEX_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";

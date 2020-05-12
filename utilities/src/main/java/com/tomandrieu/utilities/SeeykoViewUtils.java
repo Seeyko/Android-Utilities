@@ -8,10 +8,8 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.text.util.Linkify;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -148,26 +146,22 @@ public class SeeykoViewUtils {
         }
     }
 
-    public static void resetTextInputErrorsOnTextChanged(TextInputLayout... textInputLayouts) {
+    public static void resetTextInputErrorsOnChanged(TextInputLayout... textInputLayouts) {
         for (final TextInputLayout inputLayout : textInputLayouts) {
             EditText editText = inputLayout.getEditText();
             if (editText != null) {
-                editText.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
+                editText
+                        .setOnTouchListener((view, motionEvent) -> {
+                            if (inputLayout.getError() != null) inputLayout.setError(null);
 
-                    }
+                            return false;
+                        });
+                inputLayout
+                        .setOnTouchListener((view, motionEvent) -> {
+                            if (inputLayout.getError() != null) inputLayout.setError(null);
 
-                    @Override
-                    public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(final Editable s) {
-                        if (inputLayout.getError() != null) inputLayout.setError(null);
-                    }
-                });
+                            return false;
+                        });
             }
 
         }

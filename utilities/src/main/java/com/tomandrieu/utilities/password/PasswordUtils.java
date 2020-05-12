@@ -32,7 +32,7 @@ public class PasswordUtils {
         if (!password.matches(REGEX_DIGIT)) passwordRequirmentList.add(PasswordRequirment.DIGIT);
         if (!password.matches(REGEX_MAJ)) passwordRequirmentList.add(PasswordRequirment.MAJ);
         if (!password.matches(REGEX_MIN)) passwordRequirmentList.add(PasswordRequirment.MIN);
-        if (!password.matches(REGEX_MIN_NB_CHAR)) passwordRequirmentList.add(PasswordRequirment.MIN_NB_CHAR);
+        if (password.matches(REGEX_MIN_NB_CHAR)) passwordRequirmentList.add(PasswordRequirment.MIN_NB_CHAR);
 
         PasswordCheck passwordCheck = null;
         switch (passwordRequirmentList.size()) {

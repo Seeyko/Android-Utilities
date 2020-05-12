@@ -3,7 +3,6 @@ package com.tomandrieu.utilities.password;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class PasswordUtils {
@@ -27,7 +26,7 @@ public class PasswordUtils {
         return password.matches(REGEX_NO_WHITESPACE);
     }
 
-    public static HashMap<PasswordComplexityLevel, List<PasswordRequirment>> getPasswordMatchComplexityLevel(String password) {
+    public static PasswordCheck getPasswordMatchComplexityLevel(String password) {
         List<PasswordRequirment> passwordRequirmentList = new ArrayList<>();
 
         if (!password.matches(REGEX_DIGIT)) passwordRequirmentList.add(PasswordRequirment.DIGIT);
@@ -35,22 +34,22 @@ public class PasswordUtils {
         if (!password.matches(REGEX_MIN)) passwordRequirmentList.add(PasswordRequirment.MIN);
         if (!password.matches(REGEX_MIN_NB_CHAR)) passwordRequirmentList.add(PasswordRequirment.MIN_NB_CHAR);
 
-        HashMap<PasswordComplexityLevel, List<PasswordRequirment>> map = new HashMap<>();
+        PasswordCheck passwordCheck = null;
         switch (passwordRequirmentList.size()) {
             case 0:
-                map.put(PasswordComplexityLevel.UNBREAKABLE, passwordRequirmentList);
+                passwordCheck = new PasswordCheck(PasswordComplexityLevel.UNBREAKABLE, passwordRequirmentList);
                 break;
             case 1:
-                map.put(PasswordComplexityLevel.STRONG, passwordRequirmentList);
+                passwordCheck = new PasswordCheck(PasswordComplexityLevel.STRONG, passwordRequirmentList);
                 break;
             case 2:
-                map.put(PasswordComplexityLevel.INTERMEDIATE, passwordRequirmentList);
+                passwordCheck = new PasswordCheck(PasswordComplexityLevel.INTERMEDIATE, passwordRequirmentList);
                 break;
             case 3:
-                map.put(PasswordComplexityLevel.WEAK, passwordRequirmentList);
+                passwordCheck = new PasswordCheck(PasswordComplexityLevel.WEAK, passwordRequirmentList);
                 break;
         }
-        return map;
+        return passwordCheck;
     }
 
     //endregion

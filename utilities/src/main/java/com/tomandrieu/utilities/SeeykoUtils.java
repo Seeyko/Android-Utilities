@@ -1,5 +1,6 @@
 package com.tomandrieu.utilities;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,10 @@ import android.net.Uri;
 import android.os.Build;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 public class SeeykoUtils {
     public static int pixelsInDp(int pixels, Context context) {
@@ -41,7 +46,33 @@ public class SeeykoUtils {
     }
 
     public static int getIdentifier(String id, String type, Context context) {
-        return context.getResources().getIdentifier(id, type, context.getPackageName());
+        return context.getResources().getIdentifier(id, type, context.getPackageName()
+        );
+    }
+
+    public static Activity getActivity() throws ClassNotFoundException, NoSuchMethodException, NoSuchFieldException, InvocationTargetException, IllegalAccessException {
+        Class activityThreadClass = Class.forName("android.app.ActivityThread");
+        Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
+        Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
+        activitiesField.setAccessible(true);
+
+        Map<Object, Object> activities = (Map<Object, Object>) activitiesField.get(activityThread);
+        if (activities == null)
+            return null;
+
+        for (Object activityRecord : activities.values()) {
+            Class activityRecordClass = activityRecord.getClass();
+            Field pausedField = activityRecordClass.getDeclaredField("paused");
+            pausedField.setAccessible(true);
+            if (!pausedField.getBoolean(activityRecord)) {
+                Field activityField = activityRecordClass.getDeclaredField("activity");
+                activityField.setAccessible(true);
+                Activity activity = (Activity) activityField.get(activityRecord);
+                return activity;
+            }
+        }
+
+        return null;
     }
 
 }

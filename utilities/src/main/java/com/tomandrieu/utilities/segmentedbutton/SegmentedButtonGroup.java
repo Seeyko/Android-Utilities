@@ -745,7 +745,8 @@ public class SegmentedButtonGroup extends LinearLayout {
             button.clipRight(1.0f);
         }
 
-        this.onPositionChangedListener.onPositionChanged(position);
+        if (onPositionChangedListener != null)
+            this.onPositionChangedListener.onPositionChanged(position);
         invalidate();
     }
 

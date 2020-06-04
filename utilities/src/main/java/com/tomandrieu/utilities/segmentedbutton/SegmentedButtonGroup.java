@@ -1249,6 +1249,106 @@ public class SegmentedButtonGroup extends LinearLayout {
     }
 
     /**
+     * Selects the button at the given position and animates the movement if desired
+     * <p>
+     * If the given position is out of bounds, i.e. less than 0 or greater than or equal to the number of buttons,
+     * then the function will return after doing nothing. In addition, if the button selected is the current button
+     * and the user is not dragging or the button is not currently being animated, then the function also returns
+     * after doing nothing.
+     * <p>
+     * If animate is true, then the button will be animated to the new position, using an animation interpolator and
+     * animation duration stored in the button group. Otherwise, if animate is false, the button will be moved to the
+     * new position immediately.
+     * <p>
+     * If an existing animation is already taking place, the animation should automatically be cancelled and the new
+     * animation will begin from the current location.
+     *
+     * @param position index of new button to select
+     * @param animate  whether or not to animate moving to the button
+     * @param notifyListener wheter to trigger onPositionChangeListener
+     */
+    public void setPosition(final int position, final boolean animate, final boolean notifyListener) {
+        // Return and do nothing in two cases
+        // First, if the position is out of bounds.
+        // Second, if the desired position is equal to the current position do nothing. But, only do this under two
+        // additional requirements. If the selected button is not being animated, since the position is not updated
+        // until AFTER animation, it basically means the user cannot select the old button until the animation is done.
+        // Also if the user is not dragging the button. If the user lets go from dragging and the button is still on
+        // the same position but slightly offset, then we want to snap back to normal.
+        if (position < 0 || position >= buttons.size() || (position == this.position && (buttonAnimator != null
+                && !buttonAnimator.isRunning()) && Float.isNaN(dragOffsetX)))
+            return;
+
+        // If not animating or if the animation interpolator is null, then just update the selected position
+        if (!animate || selectionAnimationInterpolator == null) {
+            updateSelectedPosition(position, notifyListener);
+            return;
+        }
+
+        // Loop through the buttons between the start and stop position to find any buttons with visibility equal to
+        // GONE. Add to a list for later
+        final List<Integer> buttonGoneIndices = new ArrayList<>();
+        final boolean movingRight = currentPosition < position;
+        if (movingRight) {
+            for (int i = (int) Math.ceil(currentPosition); i < position; ++i) {
+                if (buttons.get(i).getVisibility() == GONE)
+                    buttonGoneIndices.add(i);
+            }
+        } else {
+            for (int i = (int) Math.floor(currentPosition); i > position; --i) {
+                if (buttons.get(i).getVisibility() == GONE)
+                    buttonGoneIndices.add(i + 1);
+            }
+        }
+
+        // Animate value from current position to the new position
+        // Fraction positions such as 1.25 means we are 75% in button 1 and 25% in button 2.
+        // The position indicates the position of the left side of the selected button
+        //
+        // The new position is adjusted to remove GONE buttons
+        buttonAnimator = ValueAnimator.ofFloat(currentPosition,
+                movingRight ? position - buttonGoneIndices.size() : position + buttonGoneIndices.size());
+
+        // For each update to the animation value, move the button
+        buttonAnimator.addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+
+            // Account for GONE buttons in between the indices
+            // Depending on if we're moving left/right, we add/subtract one when a button is missing
+            // This will skip the GONE button
+            for (int index : buttonGoneIndices) {
+                if (movingRight && value >= index)
+                    value += 1;
+                else if (!movingRight && value <= index)
+                    value -= 1;
+            }
+
+            // Move to the new position
+            moveSelectedButton(value);
+        });
+
+        // Set the parameters for the button animation
+        buttonAnimator.setDuration(selectionAnimationDuration);
+        buttonAnimator.setInterpolator(selectionAnimationInterpolator);
+        buttonAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(final Animator animation) {
+                // Update the position of the button at the end of the animation
+                // Also resets all buttons to their appropriate state in case the animation went wrong in any way
+                updateSelectedPosition(position, notifyListener);
+
+                // Note: Odd bug where this specific onAnimationEnd has to be overridden in order for the animation
+                // end to be called. Originally the onAnimationEnd(animation, isReserve) operator was used but this
+                // was not called on pre-lollipop devices.
+            }
+        });
+
+        // Start the animation
+        buttonAnimator.start();
+    }
+
+
+    /**
      * Returns whether or not the currently selected button can be moved via dragging
      */
     public boolean isDraggable() {

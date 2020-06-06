@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hint_provide_information">Information à fournir</string>
+    <string name="copy_text">Texte copié</string>
+    <string name="wait_load">Attendre le chargement...</string>
+    <string name="error_password_start">Doit contenir</string>
+    <string name="error_password_digit">1 chiffre</string>
+    <string name="error_password_maj">1 majuscule</string>
+    <string name="error_password_min">1 minuscule</string>
+    <string name="error_password_min_nb_char">au moins 8 caractères</string>
+    <string name="error_password_need_"></string>
+
+</resources>

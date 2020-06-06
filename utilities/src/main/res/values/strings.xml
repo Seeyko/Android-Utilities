@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hint_provide_information">Information à fournir</string>
-    <string name="copy_text">Texte copié</string>
-    <string name="wait_load">Attendre le chargement...</string>
-    <string name="error_password_start">Doit contenir</string>
-    <string name="error_password_digit">1 chiffre</string>
-    <string name="error_password_maj">1 majuscule</string>
-    <string name="error_password_min">1 majuscule</string>
-    <string name="error_password_min_nb_char">au moins 8 caractères</string>
+    <string name="hint_provide_information">Information to provide</string>
+    <string name="copy_text">Text copied</string>
+    <string name="wait_load">Wait for the loading</string>
+    <string name="error_password_start">Need to contain</string>
+    <string name="error_password_digit">1 digit</string>
+    <string name="error_password_maj">1 uppercase</string>
+    <string name="error_password_min">1 lowercase</string>
+    <string name="error_password_min_nb_char">at least 8 caracters</string>
     <string name="error_password_need_"></string>
-
 </resources>

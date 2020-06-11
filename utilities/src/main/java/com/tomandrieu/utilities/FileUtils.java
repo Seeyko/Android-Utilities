@@ -2,8 +2,8 @@ package com.tomandrieu.utilities;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -23,12 +24,45 @@ import java.net.URLConnection;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class FileUtils {
+
     public static boolean fileExist(Context context, String localPath) {
         File file = new File(context.getFilesDir(), localPath);
         return file.exists();
     }
+
+    public final static String readJSONFromAsset(String path, Context activity) {
+        String json = null;
+        try {
+            InputStream is = null;
+            try {
+                is = activity.getAssets().open(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                json = new String(buffer, StandardCharsets.UTF_8);
+            } else {
+                json = new String(buffer);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
+
+    public final static InputStream getInputStreamFromAsset(String path, Context context) throws IOException {
+        return context.getAssets().open(path);
+    }
+
     public static boolean writeFileInternal(Context context, String fileName, String jsonString) {
         try {
             Log.d("FileUtils", "try to write at: " +  fileName);

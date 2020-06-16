@@ -21,4 +21,9 @@ public abstract class FragmentExtended extends Fragment implements SeeykoIntroSc
     public Context getClassContext() {
         return getContext();
     }
+
+    @Override
+    public void showIntroScreen() {
+        
+    }
 }

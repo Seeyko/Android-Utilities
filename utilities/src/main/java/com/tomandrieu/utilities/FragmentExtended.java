@@ -2,7 +2,7 @@ package com.tomandrieu.utilities;
 
 import androidx.fragment.app.Fragment;
 
-public abstract class FragmentExtended extends Fragment {
+public abstract class FragmentExtended extends Fragment implements SeeykoIntroScreens {
 
     /**
      * Handle back press in fragment

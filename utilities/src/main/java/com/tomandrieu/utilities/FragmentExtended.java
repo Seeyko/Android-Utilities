@@ -1,5 +1,7 @@
 package com.tomandrieu.utilities;
 
+import android.content.Context;
+
 import androidx.fragment.app.Fragment;
 
 public abstract class FragmentExtended extends Fragment implements SeeykoIntroScreens {
@@ -15,4 +17,8 @@ public abstract class FragmentExtended extends Fragment implements SeeykoIntroSc
         return false;
     }
 
+    @Override
+    public Context getClassContext() {
+        return getContext();
+    }
 }

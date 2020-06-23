@@ -1,8 +1,10 @@
 package com.tomandrieu.utilities;
 
+import android.content.Context;
+
 import androidx.fragment.app.Fragment;
 
-public abstract class FragmentExtended extends Fragment {
+public abstract class FragmentExtended extends Fragment implements SeeykoIntroScreens {
 
     /**
      * Handle back press in fragment
@@ -15,4 +17,13 @@ public abstract class FragmentExtended extends Fragment {
         return false;
     }
 
+    @Override
+    public Context getClassContext() {
+        return getContext();
+    }
+
+    @Override
+    public void showIntroScreen() {
+        
+    }
 }

@@ -5,9 +5,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 public class ImageConstants {
-
-    public static final String AUTHORITIES = "com.tomandrieu.utilities.provider";
-
+    
     private static final float BITMAP_SCALE = 0.4f;
     private static final int BLUR_RADIUS = 8;
 

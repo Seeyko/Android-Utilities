@@ -9,4 +9,6 @@
     <string name="error_password_min">1 lowercase</string>
     <string name="error_password_min_nb_char">at least 8 caracters</string>
     <string name="error_password_need_"></string>
+    <string name="choose_photo_taker">Take photo with...</string>
+    <string name="ask_permission_files_access">Ask permission to access files</string>
 </resources>

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Base64;
 import android.widget.ImageView;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -23,11 +24,7 @@ public class ImageUtils {
     public static byte[] getBytes(ImageView view) {
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
-        Bitmap bitmap = ((BitmapDrawable) view.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
-        return data;
+        return getBytes(((BitmapDrawable) view.getDrawable()).getBitmap());
     }
 
     public static byte[] getBytes(Bitmap bitmap) {
@@ -37,4 +34,17 @@ public class ImageUtils {
         return byteArray;
     }
 
+    public static String getStringImage(ImageView view) {
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        return getStringImage(((BitmapDrawable) view.getDrawable()).getBitmap());
+    }
+
+    public static String getStringImage(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
 }

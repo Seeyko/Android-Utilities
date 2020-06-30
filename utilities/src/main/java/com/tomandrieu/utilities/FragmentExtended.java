@@ -26,4 +26,10 @@ public abstract class FragmentExtended extends Fragment implements SeeykoIntroSc
     public void showIntroScreen() {
         
     }
+
+    @Override
+    public String getIntroTag() {
+        return "";
+    }
+    
 }

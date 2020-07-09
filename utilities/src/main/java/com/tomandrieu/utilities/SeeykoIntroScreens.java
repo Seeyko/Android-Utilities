@@ -12,7 +12,7 @@ public interface SeeykoIntroScreens {
 
     default void doNotShowIntroScreenAgain() {
         Log.w("IntroScreens", "doNotShowIntroAgain: " + this.getClass().getSimpleName());
-        getClassContext().getSharedPreferences(INTRO_PREFERENCE_FILE_KEY, Context.MODE_PRIVATE).edit().putBoolean(KEY_DISPLAY_INTRO_ON_CREATED + getIntroTag(), false).apply();
+        if(getClassContext() != null) getClassContext().getSharedPreferences(INTRO_PREFERENCE_FILE_KEY, Context.MODE_PRIVATE).edit().putBoolean(KEY_DISPLAY_INTRO_ON_CREATED + getIntroTag(), false).apply();
     }
 
     default void displayIntroScreen() {
@@ -22,7 +22,9 @@ public interface SeeykoIntroScreens {
     }
 
     default boolean isIntroDisplayable() {
-        return getClassContext().getSharedPreferences(INTRO_PREFERENCE_FILE_KEY, Context.MODE_PRIVATE).getBoolean(KEY_DISPLAY_INTRO_ON_CREATED + getIntroTag(), true);
+        if(getClassContext() != null){
+            return getClassContext().getSharedPreferences(INTRO_PREFERENCE_FILE_KEY, Context.MODE_PRIVATE).getBoolean(KEY_DISPLAY_INTRO_ON_CREATED + getIntroTag(), true);
+        }else return false;
     }
 
     Context getClassContext();

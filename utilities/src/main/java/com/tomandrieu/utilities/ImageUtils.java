@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.appcompat.widget.AppCompatImageView;
+
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
@@ -26,6 +28,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ImageUtils {
@@ -224,8 +228,13 @@ public class ImageUtils {
         return inSampleSize;
     }
 
-    public static void setOnClickToFullPopup(Context context, List<String> urls, ImageView... imageViews) {
-        for (ImageView imageView : imageViews) {
+    public static void setOnClickToFullPopup(Context context, List<String> urls, AppCompatImageView... imageViews) {
+        ArrayList<AppCompatImageView> imageViewArrayList = new ArrayList<>(Arrays.asList(imageViews));
+        setOnClickToFullPopup(context, urls, imageViewArrayList);
+    }
+
+    public static void setOnClickToFullPopup(Context context, List<String> urls, ArrayList<AppCompatImageView> imageViews){
+        for (AppCompatImageView imageView : imageViews) {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

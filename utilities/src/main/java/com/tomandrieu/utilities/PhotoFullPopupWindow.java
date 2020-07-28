@@ -1,9 +1,7 @@
 package com.tomandrieu.utilities;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,24 +10,21 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.palette.graphics.Palette;
+import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.PhotoView;
-import com.tomandrieu.utilities.constants.ImageConstants;
+
+import java.util.List;
+
+import me.relex.circleindicator.CircleIndicator;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class PhotoFullPopupWindow extends PopupWindow {
 
-    private static PhotoFullPopupWindow instance = null;
+    private PhotoFullPagePager photoPager;
     private AppCompatImageButton closeButton;
     View view;
     Context mContext;
@@ -38,7 +33,7 @@ public class PhotoFullPopupWindow extends PopupWindow {
     ViewGroup parent;
 
 
-    public PhotoFullPopupWindow(Context ctx, int layout, View v, Bitmap imageUrl, Bitmap bitmap) {
+    public PhotoFullPopupWindow(Context ctx, View v, List<String> imageUrl) {
         super(((LayoutInflater) ctx.getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.popup_photo_full, null), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         if (Build.VERSION.SDK_INT >= 21) {
@@ -60,57 +55,18 @@ public class PhotoFullPopupWindow extends PopupWindow {
                 dismiss();
             }
         });
+
         //---------Begin customising this popup--------------------
+        photoPager = new PhotoFullPagePager(view.getContext(), imageUrl);
+        ViewPager viewPager = view.findViewById(R.id.details_image_pager);
+        viewPager.setAdapter(photoPager);
+        CircleIndicator circleIndicator = view.findViewById(R.id.details_circle_indicator);
+        circleIndicator.setViewPager(viewPager);
 
-        photoView = view.findViewById(R.id.image);
-        loading = view.findViewById(R.id.loading);
-        parent = (ViewGroup) photoView.getParent();
-        // ImageUtils.setZoomable(imageView);
-        //----------------------------
-        if (bitmap != null) {
-            loading.setVisibility(View.GONE);
-            if (Build.VERSION.SDK_INT >= 16) {
-                parent.setBackground(new BitmapDrawable(mContext.getResources(), ImageConstants.fastblur(Bitmap.createScaledBitmap(bitmap, 50, 50, true))));// ));
-            } else {
-                onPalette(Palette.from(bitmap).generate());
-            }
-            photoView.setImageBitmap(bitmap);
-        } else {
-            loading.setIndeterminate(true);
-            loading.setVisibility(View.VISIBLE);
-            Glide.with(ctx)
-                    .asBitmap()
-                    .load(imageUrl)
-                    .listener(new RequestListener<Bitmap>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                            loading.setIndeterminate(false);
-                            loading.setBackgroundColor(Color.LTGRAY);
-                            return false;
-                        }
 
-                        @Override
-                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            if (Build.VERSION.SDK_INT >= 16) {
-                                parent.setBackground(new BitmapDrawable(mContext.getResources(), ImageConstants.fastblur(Bitmap.createScaledBitmap(resource, 50, 50, true))));// ));
-                            } else {
-                                onPalette(Palette.from(resource).generate());
+        setAnimationStyle(R.style.AnimationFade);
 
-                            }
-                            photoView.setImageBitmap(resource);
-
-                            loading.setVisibility(View.GONE);
-                            return false;
-                        }
-                    })
-
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(photoView);
-
-            setAnimationStyle(R.style.AnimationFade);
-
-            showAtLocation(v, Gravity.CENTER, 0, 0);
-        }
+        showAtLocation(v, Gravity.CENTER, 0, 0);
         //------------------------------
 
     }

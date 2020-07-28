@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import androidx.viewpager.widget.ViewPager;
+
 public class PagingViewPager extends ViewPager {
 
     private boolean pagingEnabled;

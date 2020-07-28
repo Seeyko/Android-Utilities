@@ -33,7 +33,7 @@ public class PhotoFullPopupWindow extends PopupWindow {
     ViewGroup parent;
 
 
-    public PhotoFullPopupWindow(Context ctx, View v, List<String> imageUrl) {
+    public PhotoFullPopupWindow(Context ctx, View clickedImage, List<String> imageUrl) {
         super(((LayoutInflater) ctx.getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.popup_photo_full, null), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         if (Build.VERSION.SDK_INT >= 21) {
@@ -66,7 +66,7 @@ public class PhotoFullPopupWindow extends PopupWindow {
 
         setAnimationStyle(R.style.AnimationFade);
 
-        showAtLocation(v, Gravity.CENTER, 0, 0);
+        showAtLocation(clickedImage, Gravity.CENTER, 0, 0);
         //------------------------------
 
     }

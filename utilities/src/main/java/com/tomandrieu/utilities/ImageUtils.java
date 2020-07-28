@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class ImageUtils {
     public final static BitmapDescriptor bitmapDescriptorFromVector(Drawable vectorDrawable) {
@@ -220,5 +222,16 @@ public class ImageUtils {
         }
 
         return inSampleSize;
+    }
+
+    public static void setOnClickToFullPopup(Context context, List<String> urls, ImageView... imageViews) {
+        for (ImageView imageView : imageViews) {
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new PhotoFullPopupWindow(context, v, urls);
+                }
+            });
+        }
     }
 }

@@ -227,17 +227,19 @@ public class ImageUtils {
         return inSampleSize;
     }
 
-    public static void setOnClickToFullPopup(Context context, List<String> urls, int index, AppCompatImageView... imageViews) {
+    public static void setOnClickToFullPopup(Context context, List<String> urls, AppCompatImageView... imageViews) {
         ArrayList<AppCompatImageView> imageViewArrayList = new ArrayList<>(Arrays.asList(imageViews));
-        setOnClickToFullPopup(context, urls, index, imageViewArrayList);
+        setOnClickToFullPopup(context, urls, imageViewArrayList);
     }
 
-    public static void setOnClickToFullPopup(Context context, List<String> urls, int index, ArrayList<AppCompatImageView> imageViews){
-        for (AppCompatImageView imageView : imageViews) {
+    public static void setOnClickToFullPopup(Context context, List<String> urls, ArrayList<AppCompatImageView> imageViews){
+        for(int i = 0; i < imageViews.size(); i++){
+            AppCompatImageView imageView = imageViews.get(i);
+            int finalI = i;
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new PhotoFullPopupWindow(context, v, urls, index);
+                    new PhotoFullPopupWindow(context, v, urls, finalI);
                 }
             });
         }

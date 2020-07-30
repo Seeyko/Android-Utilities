@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.palette.graphics.Palette;
 import androidx.viewpager.widget.ViewPager;
 
@@ -26,7 +25,7 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 public class PhotoFullPopupWindow extends PopupWindow {
 
     private static final String TAG = "PhotoFullPopupWindow";
-    private AppCompatImageButton closeButton;
+    View view;
     Context mContext;
     PhotoView photoView;
 
@@ -38,8 +37,13 @@ public class PhotoFullPopupWindow extends PopupWindow {
             setElevation(5.0f);
         }
         this.mContext = ctx;
+        if (Build.VERSION.SDK_INT >= 21) {
+            setElevation(5.0f);
+        }
+        this.mContext = ctx;
+        this.view = getContentView();
 
-        closeButton = getContentView().findViewById(R.id.ib_close);
+        View closeButton = view.findViewById(R.id.ib_close);
 
         setOutsideTouchable(true);
 
@@ -54,11 +58,12 @@ public class PhotoFullPopupWindow extends PopupWindow {
         });
 
         //---------Begin customising this popup--------------------
-        PhotoFullPagePager photoPager = new PhotoFullPagePager(getContentView().getContext(), imageUrl);
-        ViewPager viewPager = getContentView().findViewById(R.id.details_image_pager);
+        ViewPager viewPager = view.findViewById(R.id.details_image_pager);
         Log.e(TAG, "viewPager: "  + viewPager);
+
+        PhotoFullPagePager photoPager = new PhotoFullPagePager(getContentView().getContext(), imageUrl);
         viewPager.setAdapter(photoPager);
-        CircleIndicator circleIndicator = getContentView().findViewById(R.id.details_circle_indicator);
+        CircleIndicator circleIndicator = view.findViewById(R.id.details_circle_indicator);
         circleIndicator.setViewPager(viewPager);
 
 

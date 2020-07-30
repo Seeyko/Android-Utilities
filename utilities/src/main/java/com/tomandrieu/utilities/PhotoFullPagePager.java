@@ -62,40 +62,51 @@ public class PhotoFullPagePager extends PagerAdapter {
         }
 
         //----------------------------
-
-        loading.setVisibility(View.VISIBLE);
-        Glide.with(context)
-                .asBitmap()
-                .load(imageUri)
-                .listener(new RequestListener<Bitmap>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                        loading.setBackgroundColor(Color.LTGRAY);
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                        if (Build.VERSION.SDK_INT >= 16) {
-                            parent.setBackground(new BitmapDrawable(context.getResources(), ImageConstants.fastblur(Bitmap.createScaledBitmap(resource, 50, 50, true))));// ));
-                        } else {
-                            onPalette(Palette.from(resource).generate());
+        if (bitmap != null) {
+            loading.setVisibility(View.GONE);
+            if (Build.VERSION.SDK_INT >= 16) {
+                parent.setBackground(new BitmapDrawable(context.getResources(), ImageConstants.fastblur(Bitmap.createScaledBitmap(bitmap, 50, 50, true))));// ));
+            } else {
+                onPalette(Palette.from(bitmap).generate(), parent);
+            }
+            photoView.setImageBitmap(bitmap);
+        } else {
+            loading.setVisibility(View.VISIBLE);
+            Glide.with(context)
+                    .asBitmap()
+                    .load(imageUri)
+                    .listener(new RequestListener<Bitmap>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                            loading.setBackgroundColor(Color.LTGRAY);
+                            loading.setVisibility(View.GONE);
+                            return true;
                         }
-                        photoView.setImageBitmap(resource);
 
-                        loading.setVisibility(View.GONE);
-                        return false;
-                    }
-                })
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(photoView);
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                            if (Build.VERSION.SDK_INT >= 16) {
+                                parent.setBackground(new BitmapDrawable(context.getResources(), ImageConstants.fastblur(Bitmap.createScaledBitmap(resource, 50, 50, true))));// ));
+                            } else {
+                                onPalette(Palette.from(resource).generate(), parent);
+                            }
+                            photoView.setImageBitmap(resource);
 
+                            loading.setVisibility(View.GONE);
+                            return true;
+                        }
+                    })
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(photoView);
+        }
         container.addView(view);
         return view;
     }
 
-    private void onPalette(Palette generate) {
-
+    private void onPalette(Palette palette, ViewGroup parent) {
+        if (null != palette) {
+            parent.setBackgroundColor(palette.getDarkVibrantColor(Color.GRAY));
+        }
     }
 
     /*

@@ -45,14 +45,5 @@
         android:tint="?attr/colorOnPrimary"
         android:src="@drawable/ic_custom_back_arrow" />
 
-    <ProgressBar
-        android:id="@+id/loading"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:elevation="10dp" />
-
 
 </RelativeLayout>

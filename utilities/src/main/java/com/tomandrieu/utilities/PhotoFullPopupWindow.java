@@ -27,7 +27,7 @@ public class PhotoFullPopupWindow extends PopupWindow {
     PhotoView photoView;
 
 
-    public PhotoFullPopupWindow(Context ctx, View clickedImage, List<String> imageUrl) {
+    public PhotoFullPopupWindow(Context ctx, View clickedImage, List<String> imageUrl, int indexToStart) {
         super(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.view = inflater.inflate(R.layout.popup_photo_full, null, false);
@@ -63,6 +63,7 @@ public class PhotoFullPopupWindow extends PopupWindow {
         circleIndicator.setViewPager(viewPager);
 
 
+        viewPager.setCurrentItem(indexToStart);
         setAnimationStyle(R.style.AnimationFade);
 
         showAtLocation(clickedImage, Gravity.CENTER, 0, 0);

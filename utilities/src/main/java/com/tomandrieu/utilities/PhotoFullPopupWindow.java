@@ -19,8 +19,6 @@ import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-
 public class PhotoFullPopupWindow extends PopupWindow {
 
     private static final String TAG = "PhotoFullPopupWindow";
@@ -31,8 +29,8 @@ public class PhotoFullPopupWindow extends PopupWindow {
 
     public PhotoFullPopupWindow(Context ctx, View clickedImage, List<String> imageUrl) {
         super(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-        this.view = ((LayoutInflater)ctx.getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.popup_photo_full, null);
+        LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.view = inflater.inflate(R.layout.popup_photo_full, null, false);
         setContentView(view);
 
         this.mContext = ctx;

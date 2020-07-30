@@ -9,7 +9,6 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.palette.graphics.Palette;
@@ -58,7 +57,7 @@ public class PhotoFullPagePager extends PagerAdapter {
         if (photoView.getDrawable() != null) {
             bitmap = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
         } else {
-            Toast.makeText(context, context.getResources().getString(R.string.wait_load), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, context.getResources().getString(R.string.wait_load), Toast.LENGTH_SHORT).show();
         }
 
         //----------------------------

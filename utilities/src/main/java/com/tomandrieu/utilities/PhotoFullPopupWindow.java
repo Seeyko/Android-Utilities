@@ -16,7 +16,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.List;
-import java.util.Objects;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -31,17 +30,16 @@ public class PhotoFullPopupWindow extends PopupWindow {
 
 
     public PhotoFullPopupWindow(Context ctx, View clickedImage, List<String> imageUrl) {
-        super(((LayoutInflater) Objects.requireNonNull(ctx.getSystemService(LAYOUT_INFLATER_SERVICE))).inflate(R.layout.popup_photo_full, null), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        super(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            setElevation(5.0f);
-        }
+        this.view = ((LayoutInflater)ctx.getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.popup_photo_full, null);
+        setContentView(view);
+
         this.mContext = ctx;
         if (Build.VERSION.SDK_INT >= 21) {
             setElevation(5.0f);
         }
         this.mContext = ctx;
-        this.view = getContentView();
 
         View closeButton = view.findViewById(R.id.ib_close);
 

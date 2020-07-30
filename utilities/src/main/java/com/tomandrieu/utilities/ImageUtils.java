@@ -16,7 +16,6 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
@@ -41,7 +40,7 @@ public class ImageUtils {
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
-    public static byte[] getBytes(ImageView view) {
+    public static byte[] getBytes(AppCompatImageView view) {
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
         return getBytes(((BitmapDrawable) view.getDrawable()).getBitmap());
@@ -54,7 +53,7 @@ public class ImageUtils {
         return byteArray;
     }
 
-    public static String getStringImage(ImageView view) {
+    public static String getStringImage(AppCompatImageView view) {
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
         return getStringImage(((BitmapDrawable) view.getDrawable()).getBitmap());

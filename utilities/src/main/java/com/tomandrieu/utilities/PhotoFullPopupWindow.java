@@ -3,6 +3,7 @@ package com.tomandrieu.utilities;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class PhotoFullPopupWindow extends PopupWindow {
 
+    private static final String TAG = "PhotoFullPopupWindow";
     private AppCompatImageButton closeButton;
     Context mContext;
     PhotoView photoView;
@@ -54,6 +56,7 @@ public class PhotoFullPopupWindow extends PopupWindow {
         //---------Begin customising this popup--------------------
         PhotoFullPagePager photoPager = new PhotoFullPagePager(getContentView().getContext(), imageUrl);
         ViewPager viewPager = getContentView().findViewById(R.id.details_image_pager);
+        Log.e(TAG, "viewPager: "  + viewPager);
         viewPager.setAdapter(photoPager);
         CircleIndicator circleIndicator = getContentView().findViewById(R.id.details_circle_indicator);
         circleIndicator.setViewPager(viewPager);

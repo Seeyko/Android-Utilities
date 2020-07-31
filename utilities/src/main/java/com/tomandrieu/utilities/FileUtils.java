@@ -65,14 +65,15 @@ public class FileUtils {
 
     public static boolean writeFileInternal(Context context, String fileName, String jsonString) {
         try {
-            Log.d("FileUtils", "try to write at: " +  fileName);
+            Log.d("FileUtils", "try to write at: " + fileName);
             File file = new File(context.getFilesDir(), fileName);
             Log.d("FileUtils", "file located");
 
             FileOutputStream stream = new FileOutputStream(file);
             try {
                 stream.write(jsonString.getBytes());
-            } catch (Exception e) {e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             } finally {
                 Log.d("FileUtils", "file writed success");
                 stream.close();
@@ -89,6 +90,17 @@ public class FileUtils {
             return false;
         }
 
+    }
+
+    public static boolean deleteFileInternal(Context context, String fileName) {
+
+        Log.d("FileUtils", "try to delete file at: " + fileName);
+        File fileToDelete = new File(context.getFilesDir(), fileName);
+
+        if (fileExist(context, fileName)) {
+            return fileToDelete.delete();
+        }
+        return false;
     }
 
     /**
@@ -112,9 +124,11 @@ public class FileUtils {
 
             JSONArray jsonArray = new JSONArray((jsonStr));
             return jsonArray;
-        } catch (JSONException e) {e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
             return null;
-        } catch (IOException e) {e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -186,10 +200,11 @@ public class FileUtils {
         private final SeeykoListeners.JSONArrayListener listener;
         private final Context context;
 
-        public JsonArrayTask(Context context){
+        public JsonArrayTask(Context context) {
             this.context = context;
             listener = null;
         }
+
         public JsonArrayTask(Context context, SeeykoListeners.JSONArrayListener listener) {
             this.context = context;
             this.listener = listener;
@@ -198,7 +213,7 @@ public class FileUtils {
         protected void onPreExecute() {
             super.onPreExecute();
             Log.e("download", "start");
-            if(listener != null){
+            if (listener != null) {
                 listener.load();
             }
         }
@@ -245,7 +260,7 @@ public class FileUtils {
         @Override
         protected void onPostExecute(JSONArray result) {
             super.onPostExecute(result);
-            if(listener != null){
+            if (listener != null) {
                 listener.callback(result);
             }
         }

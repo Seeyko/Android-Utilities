@@ -232,16 +232,19 @@ public class ImageUtils {
         setOnClickToFullPopup(context, urls, imageViewArrayList);
     }
 
+    public static void setOnClickToFullPopup(Context context, List<String> urls, AppCompatImageView imageView, int index) {
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new PhotoFullPopupWindow(context, v, urls, index);
+            }
+        });
+    }
+
     public static void setOnClickToFullPopup(Context context, List<String> urls, ArrayList<AppCompatImageView> imageViews){
         for(int i = 0; i < imageViews.size(); i++){
             AppCompatImageView imageView = imageViews.get(i);
-            int finalI = i;
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new PhotoFullPopupWindow(context, v, urls, finalI);
-                }
-            });
+            setOnClickToFullPopup(context, urls, imageView, i);
         }
     }
 }

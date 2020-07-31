@@ -63,7 +63,9 @@ public class PhotoFullPopupWindow extends PopupWindow {
         circleIndicator.setViewPager(viewPager);
 
 
-        viewPager.setCurrentItem(indexToStart);
+        if(indexToStart <= photoPager.getCount()){
+            viewPager.setCurrentItem(indexToStart);
+        }
         setAnimationStyle(R.style.AnimationFade);
 
         showAtLocation(clickedImage, Gravity.CENTER, 0, 0);

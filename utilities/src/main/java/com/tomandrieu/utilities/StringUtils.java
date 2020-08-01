@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class StringUtils {
     private static final Pattern ACCENTS_PATTERN = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
 
+    private static final Pattern NORMALIZE_PATTERN = Pattern.compile("\\'|\\ |\\-");
     public static String firstCharUppercase(String str) {
         if (str != null && !str.isEmpty()) {
             return str.substring(0, 1).toUpperCase() + str.substring(1);
@@ -57,27 +58,41 @@ public class StringUtils {
      * @return true if needle is in key, false otherwise
      */
     public static boolean containsNormalize(String key, String needle) {
-        return normalize(key).contains(normalize(needle));
+        return containsNormalize(NORMALIZE_PATTERN, key, needle);
     }
 
+    public static boolean containsNormalize(Pattern p, String key, String needle) {
+        return normalize(p, key).contains(normalize(p, needle));
+    }
     /**
      * containsNormalize for ArrayList of string
+     *
      * @param keys
      * @param needle
      * @return
      */
     public static boolean containsNormalize(ArrayList<String> keys, String needle) {
         for (int i = 0; i < keys.size(); i++) {
-            if (containsNormalize(keys.get(i), needle)) {
+            if (containsNormalize(NORMALIZE_PATTERN, keys.get(i), needle)) {
                 return true;
             }
         }
         return false;
     }
 
+
     public static String normalize(String string) {
-        return removeWhiteSpace(removeDash(removeAccents(string))).toLowerCase();
+        return normalize(NORMALIZE_PATTERN, string);
     }
+
+    public static String normalize(Pattern p, String string) {
+        return replaceAll(p, string, "").toLowerCase();
+    }
+
+    public static String replaceAll(Pattern p, String input, String replacement) {
+        return Normalizer.normalize(p.matcher(input).replaceAll(replacement), Normalizer.Form.NFD).replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+    }
+
 
     public static String removeAccents(String string) {
         return ACCENTS_PATTERN.matcher(Normalizer.normalize(string, Normalizer.Form.NFD)).replaceAll("").replaceAll("'", "");

@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 
 public class StringUtilsTest {
@@ -36,9 +38,23 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void globalEquals() {
-        String searchingText = "saint geo";
+    public void containsNormalize() {
+        String searchingText = "saint ";
         String spotName = "Sâint-Gé orges-d'Orques";
+
+        String normalize = StringUtils.normalize(spotName);
+        String normalizeSearchText = StringUtils.normalize(spotName);
+
+//        assertEquals(spotName, normalize);
+
         assertEquals(true, StringUtils.containsNormalize(spotName, searchingText));
+
+        String spotName2 = "Saint malo skatepark";
+        String spotName3 = "Saintpétèrbourg";
+        ArrayList<String> spots = new ArrayList<>();
+        spots.add(spotName);
+        spots.add(spotName2);
+        spots.add(spotName3);
+        assertEquals(true, StringUtils.containsNormalize(spots, searchingText));
     }
 }

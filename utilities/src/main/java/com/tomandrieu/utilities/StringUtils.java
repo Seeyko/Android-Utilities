@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.Collator;
 
 public class StringUtils {
     public static String firstCharUppercase(String str) {
@@ -13,6 +14,7 @@ public class StringUtils {
             return str;
         }
     }
+
     public static String reduceString(String str, int newLength) {
         String reduceString = str.substring(0, Math.min(str.length(), newLength));
         return reduceString;
@@ -35,7 +37,7 @@ public class StringUtils {
 
             // Create Hex String
             StringBuffer hexString = new StringBuffer();
-            for (int i=0; i<messageDigest.length; i++)
+            for (int i = 0; i < messageDigest.length; i++)
                 hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
             return hexString.toString();
 
@@ -43,6 +45,16 @@ public class StringUtils {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static boolean globalEquals(String a, String b) {
+        a = a.replaceAll("\\s", "").replaceAll("-", "");
+        b = b.replaceAll("\\s", "").replaceAll("-", "");
+
+        Collator collate = java.text.Collator.getInstance();
+        collate.setStrength(java.text.Collator.PRIMARY);
+        collate.setDecomposition(java.text.Collator.CANONICAL_DECOMPOSITION);
+        return collate.equals(a, b);
     }
 
 }

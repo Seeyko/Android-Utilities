@@ -48,8 +48,8 @@ public class StringUtils {
     }
 
     public static boolean globalEquals(String a, String b) {
-        a = a.replaceAll("\\s", "").replaceAll("-", "");
-        b = b.replaceAll("\\s", "").replaceAll("-", "");
+        a = a.replaceAll("\\s", "").replaceAll("-", "").toLowerCase();
+        b = b.replaceAll("\\s", "").replaceAll("-", "").toLowerCase();
 
         Collator collate = java.text.Collator.getInstance();
         collate.setStrength(java.text.Collator.PRIMARY);

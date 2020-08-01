@@ -34,4 +34,11 @@ public class StringUtilsTest {
         String id = "103";
         assertEquals(id103md5result, StringUtils.md5("103"));
     }
+
+    @Test
+    public void globalEquals() {
+        String searchingText = "saint geo";
+        String spotName = "Sâint-Gé orges-d'Orques";
+        assertEquals(true, StringUtils.containsNormalize(spotName, searchingText));
+    }
 }

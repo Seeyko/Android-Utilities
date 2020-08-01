@@ -4,9 +4,12 @@ import android.text.TextUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.Collator;
+import java.text.Normalizer;
+import java.util.regex.Pattern;
 
 public class StringUtils {
+    private static final Pattern ACCENTS_PATTERN = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+
     public static String firstCharUppercase(String str) {
         if (str != null && !str.isEmpty()) {
             return str.substring(0, 1).toUpperCase() + str.substring(1);
@@ -47,14 +50,30 @@ public class StringUtils {
         return "";
     }
 
-    public static boolean globalEquals(String a, String b) {
-        a = a.replaceAll("\\s", "").replaceAll("-", "").toLowerCase();
-        b = b.replaceAll("\\s", "").replaceAll("-", "").toLowerCase();
+    /**
+     *
+     * @param key
+     * @param needle
+     * @return true if needle is in key, false otherwise
+     */
+    public static boolean containsNormalize(String key, String needle) {
+        return normalize(key).contains(normalize(needle));
+    }
 
-        Collator collate = java.text.Collator.getInstance();
-        collate.setStrength(java.text.Collator.PRIMARY);
-        collate.setDecomposition(java.text.Collator.CANONICAL_DECOMPOSITION);
-        return collate.equals(a, b);
+    public static String normalize(String string) {
+        return removeWhiteSpace(removeDash(removeAccents(string))).toLowerCase();
+    }
+
+    public static String removeAccents(String string) {
+        return ACCENTS_PATTERN.matcher(Normalizer.normalize(string, Normalizer.Form.NFD)).replaceAll("").replaceAll("'", "");
+    }
+
+    public static String removeDash(String string) {
+        return string.replaceAll("-", "");
+    }
+
+    public static String removeWhiteSpace(String string) {
+        return string.replaceAll(" ", "");
     }
 
 }

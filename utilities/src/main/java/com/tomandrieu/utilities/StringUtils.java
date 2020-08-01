@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class StringUtils {
@@ -51,13 +52,27 @@ public class StringUtils {
     }
 
     /**
-     *
      * @param key
      * @param needle
      * @return true if needle is in key, false otherwise
      */
     public static boolean containsNormalize(String key, String needle) {
         return normalize(key).contains(normalize(needle));
+    }
+
+    /**
+     * containsNormalize for ArrayList of string
+     * @param keys
+     * @param needle
+     * @return
+     */
+    public static boolean containsNormalize(ArrayList<String> keys, String needle) {
+        for (int i = 0; i < keys.size(); i++) {
+            if (containsNormalize(keys.get(i), needle)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static String normalize(String string) {

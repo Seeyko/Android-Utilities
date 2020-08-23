@@ -15,7 +15,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.ImageView;
+import android.view.View;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -25,6 +27,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ImageUtils {
     public final static BitmapDescriptor bitmapDescriptorFromVector(Drawable vectorDrawable) {
@@ -35,7 +40,7 @@ public class ImageUtils {
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
-    public static byte[] getBytes(ImageView view) {
+    public static byte[] getBytes(AppCompatImageView view) {
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
         return getBytes(((BitmapDrawable) view.getDrawable()).getBitmap());
@@ -48,7 +53,7 @@ public class ImageUtils {
         return byteArray;
     }
 
-    public static String getStringImage(ImageView view) {
+    public static String getStringImage(AppCompatImageView view) {
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
         return getStringImage(((BitmapDrawable) view.getDrawable()).getBitmap());
@@ -220,5 +225,26 @@ public class ImageUtils {
         }
 
         return inSampleSize;
+    }
+
+    public static void setOnClickToFullPopup(Context context, List<String> urls, AppCompatImageView... imageViews) {
+        ArrayList<AppCompatImageView> imageViewArrayList = new ArrayList<>(Arrays.asList(imageViews));
+        setOnClickToFullPopup(context, urls, imageViewArrayList);
+    }
+
+    public static void setOnClickToFullPopup(Context context, List<String> urls, AppCompatImageView imageView, int index) {
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new PhotoFullPopupWindow(context, v, urls, index);
+            }
+        });
+    }
+
+    public static void setOnClickToFullPopup(Context context, List<String> urls, ArrayList<AppCompatImageView> imageViews){
+        for(int i = 0; i < imageViews.size(); i++){
+            AppCompatImageView imageView = imageViews.get(i);
+            setOnClickToFullPopup(context, urls, imageView, i);
+        }
     }
 }

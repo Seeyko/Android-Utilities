@@ -1,13 +1,13 @@
 package com.tomandrieu.utilities;
 
 import android.content.Context;
-import android.widget.ImageView;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ImageUtilsTest {
 
@@ -19,8 +19,8 @@ public class ImageUtilsTest {
                 .append("gtpgtBRlcGjWut7Gv6vt9CxeEi5pf6YSjNLKu00Aa0b73AFfltei3b77fRcDQE4SuSOGgN3u8Ungaoxc4DyRVtvks8W5hnE1E1Y+UrQAb5tXy10VHXw7UXY/GGs3MSOSioXPIKJ+vLkC9iqHI/2l6zgsV9uWeXgLffmAn56Ph+8HCs5D1frA9ssox48fWj3XZaqgbdBL1i5PHnoTSkFXiQwPpidwChaBCqxvIQbQBFmfLKm/hZfotQXgOelXoOXPtuzFJ3MWxsM/hV/GruDd4COSu4au8f2nu0e8EpBkNjhbp99PtEOFzHcxrbk4U7Pw9rV+z8TfLz4ZLsu9ekFUkaTgu8G3hE6KrfUC6Dy3WhLqi75GrxoZ5BTgaWd7qvgcw7Hk+9/mtseVKlSXx5mxOeVYk0CvhP45scv6i7Ln0aLwOeW2xgyA4/tloNW/CrhpT0elwWd9HGexOdcOugrQVaqAvAZ54kscfijT4tWzzjlWOrnYOVoAHvvy0GPJRIXQckQAa3T37yvmMv0kchPynqVmD7bST/lUTKfNcsXqQR4VGujD8PBc3h0/wK/AVRUpcNdQ9xcaehB+RL5rF8ydFQl8EH/rwJ4TxXAe6oA3lMF8J4qgPdU4V+oPI0A3tMI4D2NAN7LAPgHfl3o8EmAT9IAAAAASUVORK5CYII=")
                 .toString();
 
-        ImageView imageView = new ImageView(appContext);
-        imageView.setImageDrawable(appContext.getDrawable(R.drawable.capture));
+        AppCompatImageView imageView = new AppCompatImageView(appContext);
+      // imageView.setImageDrawable(appContext.getDrawable(R.drawable.capture));
         String base64iv = ImageUtils.getStringImage(imageView);
         assertEquals(base64result, base64iv);
     }

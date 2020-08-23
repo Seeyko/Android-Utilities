@@ -16,13 +16,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -65,8 +65,8 @@ public class SeeykoViewUtils {
         textBottomSheetFragment.show(activity.getSupportFragmentManager(), textBottomSheetFragment.getTag());
     }
 
-    public static ImageView createIcon(Context context, int resId, ImageView.ScaleType scaleType, TableLayout.LayoutParams iconParams) {
-        ImageView icon = new ImageView(context);
+    public static AppCompatImageView createIcon(Context context, int resId, AppCompatImageView.ScaleType scaleType, TableLayout.LayoutParams iconParams) {
+        AppCompatImageView icon = new AppCompatImageView(context);
         icon.setLayoutParams(iconParams);
         icon.setScaleType(scaleType);
 

@@ -1,53 +1,45 @@
 package com.tomandrieu.utilities;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.palette.graphics.Palette;
+import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.PhotoView;
-import com.tomandrieu.utilities.constants.ImageConstants;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import java.util.List;
+
+import me.relex.circleindicator.CircleIndicator;
 
 public class PhotoFullPopupWindow extends PopupWindow {
 
-    private static PhotoFullPopupWindow instance = null;
-    private AppCompatImageButton closeButton;
+    private static final String TAG = "PhotoFullPopupWindow";
     View view;
     Context mContext;
     PhotoView photoView;
-    ProgressBar loading;
-    ViewGroup parent;
 
 
-    public PhotoFullPopupWindow(Context ctx, int layout, View v, Bitmap imageUrl, Bitmap bitmap) {
-        super(((LayoutInflater) ctx.getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.popup_photo_full, null), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    public PhotoFullPopupWindow(Context ctx, View clickedImage, List<String> imageUrl, int indexToStart) {
+        super(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.view = inflater.inflate(R.layout.popup_photo_full, null, false);
+        setContentView(view);
 
+        this.mContext = ctx;
         if (Build.VERSION.SDK_INT >= 21) {
             setElevation(5.0f);
         }
         this.mContext = ctx;
-        this.view = getContentView();
 
-        closeButton = this.view.findViewById(R.id.ib_close);
+        View closeButton = view.findViewById(R.id.ib_close);
 
         setOutsideTouchable(true);
 
@@ -60,57 +52,23 @@ public class PhotoFullPopupWindow extends PopupWindow {
                 dismiss();
             }
         });
+
         //---------Begin customising this popup--------------------
+        ViewPager viewPager = view.findViewById(R.id.details_image_pager);
+        Log.e(TAG, "viewPager: "  + viewPager);
 
-        photoView = view.findViewById(R.id.image);
-        loading = view.findViewById(R.id.loading);
-        parent = (ViewGroup) photoView.getParent();
-        // ImageUtils.setZoomable(imageView);
-        //----------------------------
-        if (bitmap != null) {
-            loading.setVisibility(View.GONE);
-            if (Build.VERSION.SDK_INT >= 16) {
-                parent.setBackground(new BitmapDrawable(mContext.getResources(), ImageConstants.fastblur(Bitmap.createScaledBitmap(bitmap, 50, 50, true))));// ));
-            } else {
-                onPalette(Palette.from(bitmap).generate());
-            }
-            photoView.setImageBitmap(bitmap);
-        } else {
-            loading.setIndeterminate(true);
-            loading.setVisibility(View.VISIBLE);
-            Glide.with(ctx)
-                    .asBitmap()
-                    .load(imageUrl)
-                    .listener(new RequestListener<Bitmap>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                            loading.setIndeterminate(false);
-                            loading.setBackgroundColor(Color.LTGRAY);
-                            return false;
-                        }
+        PhotoFullPagePager photoPager = new PhotoFullPagePager(getContentView().getContext(), imageUrl);
+        viewPager.setAdapter(photoPager);
+        CircleIndicator circleIndicator = view.findViewById(R.id.details_circle_indicator);
+        circleIndicator.setViewPager(viewPager);
 
-                        @Override
-                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            if (Build.VERSION.SDK_INT >= 16) {
-                                parent.setBackground(new BitmapDrawable(mContext.getResources(), ImageConstants.fastblur(Bitmap.createScaledBitmap(resource, 50, 50, true))));// ));
-                            } else {
-                                onPalette(Palette.from(resource).generate());
 
-                            }
-                            photoView.setImageBitmap(resource);
-
-                            loading.setVisibility(View.GONE);
-                            return false;
-                        }
-                    })
-
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(photoView);
-
-            setAnimationStyle(R.style.AnimationFade);
-
-            showAtLocation(v, Gravity.CENTER, 0, 0);
+        if(indexToStart <= photoPager.getCount()){
+            viewPager.setCurrentItem(indexToStart);
         }
+        setAnimationStyle(R.style.AnimationFade);
+
+        showAtLocation(clickedImage, Gravity.CENTER, 0, 0);
         //------------------------------
 
     }

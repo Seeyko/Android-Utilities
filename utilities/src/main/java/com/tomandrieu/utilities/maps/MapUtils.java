@@ -18,7 +18,7 @@ public class MapUtils {
     private static final String PERFIX_DEFAULT_NAVIGATE_LINK_BY_ADDRESS = "geo:0,0?q=";
     private static final String PERFIX_DEFAULT_GOOGLE_NAVIGATE = "google.navigation:q=";
 
-    private static Intent getChooserNavigateIntent(Context context, Intent navigateIntent, LatLng posInfo) {
+    public static Intent getChooserNavigateIntent(Context context, Intent navigateIntent, LatLng posInfo) {
 
         // Check if there is a default app opener for this type of content.
         final PackageManager packageManager = context.getPackageManager();

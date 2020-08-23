@@ -31,5 +31,5 @@ public abstract class FragmentExtended extends Fragment implements SeeykoIntroSc
     public String getIntroTag() {
         return "";
     }
-    
+
 }

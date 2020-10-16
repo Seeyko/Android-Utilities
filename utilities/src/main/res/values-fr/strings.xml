@@ -2,14 +2,15 @@
 <resources>
     <string name="hint_provide_information">Information à fournir</string>
     <string name="copy_text">Texte copié</string>
-    <string name="wait_load">Attendre le chargement...</string>
+    <string name="wait_load">Attendre le chargement…</string>
     <string name="error_password_start">Doit contenir</string>
     <string name="error_password_digit">1 chiffre</string>
     <string name="error_password_maj">1 majuscule</string>
     <string name="error_password_min">1 minuscule</string>
     <string name="error_password_min_nb_char">au moins 8 caractères</string>
     <string name="error_password_need_"></string>
-    <string name="choose_photo_taker">Prendre une photo avec...</string>
+    <string name="choose_photo_taker">Prendre une photo avec…</string>
     <string name="ask_permission_files_access">Demande de permission d\'acceder aux fichiers</string>
+    <string name="navigate_intent_chooser_title">Naviguer avec…</string>
 
 </resources>

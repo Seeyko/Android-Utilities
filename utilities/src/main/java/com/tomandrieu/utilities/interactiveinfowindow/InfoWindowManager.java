@@ -47,6 +47,7 @@ public class InfoWindowManager
     public static final int DURATION_WINDOW_ANIMATION = 200;
     public static final int DURATION_CAMERA_ENSURE_VISIBLE_ANIMATION = 500;
     private static final String TAG = "InfoWindowManager";
+    private final InfoWindowManager.Type typeOfWindow;
     public InfoWindow currentWindow;
     public View currentContainer;
     private GoogleMap googleMap;
@@ -70,9 +71,9 @@ public class InfoWindowManager
 
     private boolean hideOnFling = false;
 
-    public InfoWindowManager(@NonNull final FragmentManager fragmentManager) {
-
+    public InfoWindowManager(@NonNull final FragmentManager fragmentManager, InfoWindowManager.Type typeOfWindow) {
         this.fragmentManager = fragmentManager;
+        this.typeOfWindow = typeOfWindow;
     }
 
     /**
@@ -582,6 +583,7 @@ public class InfoWindowManager
     /**
      * Generate default {@link ContainerSpecification} for the container view.
      * You must have specified a themeName attribute in your style
+     *
      * @param context used to work with Resources.
      * @return New instance of the generated default container specs.
      */
@@ -590,10 +592,22 @@ public class InfoWindowManager
         context.getTheme().resolveAttribute(R.attr.themeName, outValue, true);
         Drawable drawable;
 
-        if ("dark".equals(outValue.string)) {
-            drawable = ContextCompat.getDrawable(context, R.mipmap.bg_dark);
-        } else {
-            drawable = ContextCompat.getDrawable(context, R.mipmap.bg2);
+        switch (this.typeOfWindow) {
+            case CLASSIC:
+            default:
+                if ("dark".contentEquals(outValue.string)) {
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.bg_dark);
+                } else {
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.bg2);
+                }
+                break;
+            case BORDERLESS:
+                if ("dark".contentEquals(outValue.string)) {
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.info_window_bg_dark);
+                } else {
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.info_window_bg_light);
+                }
+                break;
         }
 
         return new ContainerSpecification(drawable);
@@ -835,6 +849,7 @@ public class InfoWindowManager
         this.hideOnFling = hideOnFling;
     }
 
+
     /**
      * Interface definition for callbacks to be invoked when an {@link InfoWindow}'s
      * state has been changed.
@@ -907,4 +922,10 @@ public class InfoWindowManager
             outState.putInt(BUNDLE_KEY_ID, currentId);
         }
     }
+
+    public enum Type {
+        BORDERLESS,
+        CLASSIC
+    }
+
 }

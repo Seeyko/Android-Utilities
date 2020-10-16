@@ -1,4 +1,7 @@
 # Android-Utilities
+
+[![](https://jitpack.io/v/Seeyko/Android-Utilities.svg)](https://jitpack.io/#Seeyko/Android-Utilities)
+
 An Android Library where i put all my utilities and reusable code
 
 I update this repo each time i want to share class or method between projects.
